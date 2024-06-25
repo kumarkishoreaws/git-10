@@ -1,20 +1,22 @@
 version: 0.2
 phases:
-  install:
-    runtime-versions:
-      java: corretto8
   pre_build:
     commands:
-    - echo In the pre_build phase...
+      - echo Installing source NPM dependencies...
+      - npm install
   build:
     commands:
-    - echo Build started on `date`
+      - echo Build started on `date`
+      - echo Compiling the dist folder
+      - npm run-script build
   post_build:
     commands:
-    - echo Build completed on `date`
-    - mvn package
-    - mv target/bike-service-0.0.1-SNAPSHOT.war bike-service-0.0.1-SNAPSHOT.war
+      - echo Build completed on `date`
+# Include only the files required for your application to run.
 artifacts:
   files:
-  - bike-service-0.0.1-SNAPSHOT.war
-  - .ebextensions
+    - index.js
+    - dist/**/*
+    - request-map.js
+    - credentials.json
+    - node_modules
